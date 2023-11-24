@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+
+<h2>Detail <span class="badge bg-secondary">{{ curso.nombre }}</span></h2>
+<hr>
+<p>Codigo: {{ curso.codigo }}</p>
+<p>Credito: {{ curso.credito }}</p>
+
+
+
+<a href="{% url 'cursos:update' curso.pk %}" class="btn btn-success">Udpate</a>
+<a href="{% url 'cursos:delete' curso.pk %}" class="btn btn-warning">Delete</a>
+
+{% endblock content %}

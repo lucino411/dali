@@ -1,0 +1,24 @@
+dali
+├─ admin.py
+├─ apps.py
+├─ db.sqlite3
+├─ lead
+│  ├─ admin.py
+│  ├─ apps.py
+│  ├─ models.py
+│  ├─ tests.py
+│  ├─ urls.py
+│  └─ views.py
+├─ models.py
+├─ project
+│  ├─ asgi.py
+│  ├─ settings.py
+│  └─ urls.py
+├─ static
+│  ├─ css
+│  ├─ img
+│  └─ js
+├─ templates
+│  └─ curso_list.html
+├─ tests.py
+└─ views.py

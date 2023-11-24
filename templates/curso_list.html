@@ -1,0 +1,56 @@
+ {% extends 'core/base.html' %}
+
+{% block content %}
+    
+<h2>{{ title }} <span class="badge bg-secondary">{{ subtitle }}</span></h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>codigo</th>
+            <th>nombre</th>
+            <th>credito</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for curso in curso_list %}
+        <tr>
+            <td>{{ curso.codigo }}</td>  
+            <td><a class="text-blue-500 hover:text-blue-800" href="{% url 'cursos:detail' curso.pk %}">{{ curso.nombre }}</a></td>  
+            <td>{{ curso.credito }}</td>  
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">    
+    <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a href="?page=1" class="page-link">&laquo; first</a>
+                </li>
+                <li class="page-item">
+                    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">previous</a>
+                </li>
+            {% endif %}
+            
+            <li class="page-item">
+                <span class="page-link">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+            
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ page_obj.next_page_number }}" class="page-link">next</a>
+                </li>
+                <li class="page-item">
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">last &raquo;</a>
+                </li>
+            {% endif %}
+    </ul>
+</nav>
+
+<a href="{% url 'cursos:create' %}" class="btn btn-primary">Create Curso</a>
+
+{% endblock content %}
