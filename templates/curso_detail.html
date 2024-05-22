@@ -8,9 +8,8 @@
 <p>Codigo: {{ curso.codigo }}</p>
 <p>Credito: {{ curso.credito }}</p>
 
+<a href="{% url 'update' curso.pk %}" class="btn btn-success">Udpate</a>
+<a href="{% url 'delete' curso.pk %}" class="btn btn-warning">Delete</a>
 
-
-<a href="{% url 'cursos:update' curso.pk %}" class="btn btn-success">Udpate</a>
-<a href="{% url 'cursos:delete' curso.pk %}" class="btn btn-warning">Delete</a>
 
 {% endblock content %}

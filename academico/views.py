@@ -1,7 +1,47 @@
-from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
+from django.utils.timezone import now
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView, RedirectView, TemplateView
+from django.views.generic.base import RedirectView
 from .models import Curso
 from .forms import CursoForm, CursoUpdateForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import redirect, render
+from time import monotonic
+from time import time
+
+
+class DashboardView(TemplateView):
+    template_name = 'dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # print(context)
+        context['title'] = 'Dashboard'
+        context['subtitle'] = 'Bienvenidos a Academico'
+        return context
+
+
+
+class CursoDetailView(DetailView):
+    model = Curso
+    template_name = "curso_detail.html"
+
+    def get(self, request, *args, **kwargs):
+        # Record the time when the view is accessed
+        start_time = time()
+
+        # Process the view as usual
+        response = super().get(request, *args, **kwargs)
+        # Calculate the elapsed time
+        # elapsed_time = (now() - start_time).seconds
+        elapsed_time = (time() - start_time)
+        print('elapse:' + str(elapsed_time))
+
+        # Check if the delay has elapsed
+        if elapsed_time >= 5:  # Replace 5 with your desired delay in seconds
+            return redirect('cursos:list')  # Redirect to CursoListView
+
+        return response  # If the delay hasn't elapsed, return the view's response
+
 
 
 
@@ -27,7 +67,7 @@ class CursoListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
+        # print(context)
         context['title'] = 'Estos son los cursos de la Carrera'
         context['subtitle'] = 'Este es el subtitulo de la materia'
         return context
@@ -48,7 +88,7 @@ context = super().get_context_data(**kwargs) me devuelve el context de ListView,
 class CursoCreateView(CreateView):
     template_name = "curso_create.html"
     form_class = CursoForm
-    success_url = reverse_lazy('cursos:list')
+    success_url = reverse_lazy('cursos:exito')
 
 '''
 El uso de reverse_lazy garantiza que la URL se resuelva en el momento adecuado y evita problemas con la carga perezosa. Asegúrate de importar reverse_lazy al principio de tu archivo de vistas:
@@ -60,12 +100,6 @@ class CursoUpdateView(UpdateView):
     form_class = CursoUpdateForm
     success_url = reverse_lazy('cursos:list')
 
-
-class CursoDetailView(DetailView):
-    model = Curso
-    template_name = "curso_detail.html"
-
-
 class CursoUpdateView(UpdateView):
     model = Curso
     template_name = "curso_update.html"
@@ -76,3 +110,27 @@ class CursoDeleteView(DeleteView):
     model = Curso
     template_name = "curso_delete.html"
     success_url = reverse_lazy('cursos:list')
+
+
+# class CursoRedirectView(RedirectView):
+#     permanent = False
+#     query_string = True
+#     # pattern_name = 'cursos:list'
+
+#     def get_redirect_url(self, *args, **kwargs):
+#         # Realiza cualquier lógica adicional aquí, si es necesario
+
+#         # Obtén la hora actual
+#         ahora = timezone.now()
+#         print(ahora)
+
+#         # Establece el tiempo de espera en segundos (60 segundos en este caso)
+#         tiempo_espera = 60
+
+#         # Si la fecha y hora actual supera la hora original más el tiempo de espera, redirige
+#         if ahora > self.object.fecha_hora + timezone.timedelta(seconds=tiempo_espera):
+
+#             return reverse('cursos:list')
+
+#         # Si no ha pasado el tiempo, simplemente retorna la URL original
+#         return self.request.path

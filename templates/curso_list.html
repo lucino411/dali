@@ -16,7 +16,7 @@
     {% for curso in curso_list %}
         <tr>
             <td>{{ curso.codigo }}</td>  
-            <td><a class="text-blue-500 hover:text-blue-800" href="{% url 'cursos:detail' curso.pk %}">{{ curso.nombre }}</a></td>  
+            <td><a class="text-blue-500 hover:text-blue-800" href="{% url 'detail' curso.pk %}">{{ curso.nombre }}</a></td>  
             <td>{{ curso.credito }}</td>  
         </tr>
     {% endfor %}
@@ -51,6 +51,9 @@
     </ul>
 </nav>
 
-<a href="{% url 'cursos:create' %}" class="btn btn-primary">Create Curso</a>
-
+<a href="{% url 'create' %}" class="btn btn-primary">Create Curso</a>
+<hr>
+<div class="py-5 border-b border-gray-200">
+    <a class="btn btn-secondary" href="{% url 'dashboard' %}">Go back to Deashboard</a>
+</div>
 {% endblock content %}
